@@ -1,0 +1,35 @@
+http://noobtuts.com/unity/2d-pacman-game
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ 01/23/2015 ~~~~~~~~~~~~~
+Create untity project "PacMan" with project settings at 2D
+Main camera:
+	Background color black
+	Size 30
+	Position (14.5, 16, -10)
+Download maze background
+	save to /PacMan/Assets/Sprites/maze.png
+	Change pixels per unit in image inspector to 8
+	Drag image to scene and zero out position coords
+Saved scene as /PacMan/Assets/Scenes/maze.unity
+Adding physics to maze:
+	Inspector->Add Component->Physics 2D->Box Collider 2D
+	Instead of using an algorithm, just edit the box manually
+Pacman:
+	Pull down sprite sheet and save to /PacMan/Assets/Sprites/pacman.png
+	Adjust Px/Unit to 8
+	Set "Sprite Mode" to multiple
+	Open sprite editor from inspector to tell unity that it is a sprite SHEET
+	Slice -> Grid -> 16x15 -> Slice
+	Animation:
+		Right	Slice(0, 1, 2)
+		Left	Slice(3, 4, 5)
+		Up		Slice(6, 7, 8)
+		Down 	Slice(9, 10, 11)
+		Select # of sprites from assets
+		Drag into scene
+		Save animation under /PacMac/Assets/Sprites/animation/something.anim
+		Delete any extra game objects that were created (we only need the first)
+		Controlling animation:
+			Double click pacman animation controller
+			Drag in other animation files to the Animator editor
+			Create two FLOAT Parameters: DirX & DirY
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ 01/ /2015 ~~~~~~~~~~~~~
