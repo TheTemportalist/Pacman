@@ -1,5 +1,5 @@
 http://noobtuts.com/unity/2d-pacman-game
-~~~~~~~~~~~~~~~~~~~~~~~~~~~ 01/23/2015 ~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ 01/23/2015 ~~~~~~~~~~~~~~~~~~~~
 Create untity project "PacMan" with project settings at 2D
 Main camera:
 	Background color black
@@ -32,4 +32,49 @@ Pacman:
 			Double click pacman animation controller
 			Drag in other animation files to the Animator editor
 			Create two FLOAT Parameters: DirX & DirY
-~~~~~~~~~~~~~~~~~~~~~~~~~~~ 01/ /2015 ~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ 01/27/2015 ~~~~~~~~~~~~~~~~~~~~
+			NOTE: Any State block stands for ANY OTHER state than the one transitioning to
+			Right click 'Any State' and make transition to 'right' state
+			Look at Inspector for transition and scroll down to the Conditions area
+			Make condition so that DirX > 0.1 (because accuracy)
+			Replicate for each 'left', 'down', 'up'
+				Any State to right with the Condition DirX > 0.1
+				Any State to left with the Condition DirX < -0.1
+				Any State to up with the Condition DirY > 0.1
+				Any State to down with the Condition DirY < -0.1
+			Select all states (not AnyState) and set speed to .8
+Cleaning up some settings:
+	Set maze to X: 15.5 Y: 15
+	Set pacman to X: 15 Y: 13
+PM Physics:
+	[Select pacman]
+	Add Component->Physics 2D->Circle Collider 2D
+		radius: 0.95
+	Add Component->Physics 2D->Rigidbody 2D
+		Fixed angle true
+		gravity scale: 0
+	Note: By adding the rigid body, the 'OnCollisionEnter2D' will be called when object collide
+Movement:
+	Create script in CSharp called PacmanMove associated to the pacman object
+	Added FixedUpdate method, which is called at a fixed time interval, independent of FPS
+	create speed float variable, assigned to .4
+	Create a function which casts a line from the pacman in any direction to check if there is a wall
+		- function taken from tutorial
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ After Class ~~~~~~~~~~~~~~~~~~~
+	Adds code in tutorial to set the parameters in the animation
+Set pacman's sprite order in layer to '1' so that pacman is always rendered on top (for dots)
+Pacdots:
+	Import packdot with ppu = 8
+	drag pacdot to scene
+	add 2d box collider to dot and set as a trigger
+	add new Pacdot CSharp script to the pacdot
+	add OnTriggerEnter2D function
+	add code for destroying the dots
+Self code:
+	create script for maze
+	create variable for an array of x,y dot positions
+	on start, generate pacdots
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ 01/28/2015 ~~~~~~~~~~~~~
+Self code:
+	Finished pacdot coordinate array(s)
+	Worked on colliders and found a better way to detect collisions for better movement
