@@ -78,3 +78,30 @@ Self code:
 Self code:
 	Finished pacdot coordinate array(s)
 	Worked on colliders and found a better way to detect collisions for better movement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ 01/30/2015 ~~~~~~~~~~~~~
+Ghosts:
+	[Blinky (Red Ghost)]
+	Download red ghost texture
+	Import settings PpU @ 8
+	Sprite mode multiple
+	Sprite Editor -> Slice -> Type: Grid -> 16x16 -> Slice
+	Drag sprites into scene:
+		0 & 1 -> right.anim
+		2 & 3 -> left.anim
+		4 & 5 -> up.anim
+		6 & 7 -> down.anim
+	Remove all but 1 controller objects (scenen and animation folder)
+	Rename object to Blinky
+	Place @ 0, 1, 0
+	Open 'blinky' in the animation folder (opens animator in Unity)
+	Duplicate setup from pacman
+	Add Circle Collider 2D to Blinky w/ isTrigger true & radius @ .8
+	Add RigidBody2D to Blinky w/ gravity 0 & fixed angle
+	Put Blinky's Order in layer to 1, because it will also render on top of dots
+	Add new CSharp Ghost script to Blinky
+Ghost Script:
+	add FixedUpdate method
+	create Transform Array named waypoints
+	create int for current waypoint index
+	create float speed var @ .3
+	
