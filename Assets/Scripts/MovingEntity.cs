@@ -3,12 +3,22 @@ using System.Collections;
 
 public class MovingEntity : MonoBehaviour {
 
+	public Vector2 getPos() {
+		return (Vector2)this.transform.position;
+	}
+
+	virtual public void setPos(Vector3 pos) {
+		this.transform.position = pos;
+	}
+
 	// Cast Line from 'next to Pac-Man' to 'Pac-Man'
 	public bool isValidDirection(Vector2 dir) {
 		// We check the SIDES of the pacman, because checking just the center
 		// could result in us being too thick for the current point of entry.
 		//		A linecast (in checkCollision) can hit us,
 		//		even if the line is right on the edge of a collider.
+		return this.checkDirCollision (this.getPos(), dir);
+		/* I went back to the line above due to contraction of movable cells
 		if (dir.y == 0) { // along x axis
 			Vector2 top = (Vector2)this.transform.position + new Vector2(0f, 0.5f);
 			Vector2 bottom = (Vector2)this.transform.position + new Vector2(0f, -0.5f);
@@ -19,6 +29,7 @@ public class MovingEntity : MonoBehaviour {
 			Vector2 right = (Vector2)this.transform.position + new Vector2(0.5f, 0f);
 			return this.checkDirCollision(left, dir) && this.checkDirCollision(right, dir);
 		}
+		*/
 		//return false;
 	}
 	
@@ -52,12 +63,18 @@ public class MovingEntity : MonoBehaviour {
 	}
 
 	public bool moveTo(Vector2 target, float speed) {
-		if (this.isAt (target)) return true;
 		if (this.checkCollision (target)) {
+			return this.moveTo_do(target, speed);
+		}
+		return false;
+	}
+
+	public bool moveTo_do(Vector2 target, float speed) {
+		if (!this.isAt (target)) {
 			// This will smoothly move pacman to its destination, based on speed
-			Vector2 p = Vector2.MoveTowards(this.transform.position, target, speed);
+			Vector2 p = Vector2.MoveTowards (this.transform.position, target, speed);
 			// actually move to the calcualted vector
-			this.rigidbody2D.MovePosition(p);
+			this.rigidbody2D.MovePosition (p);
 			return true;
 		}
 		return false;
@@ -65,6 +82,10 @@ public class MovingEntity : MonoBehaviour {
 
 	bool isAt(Vector2 target) {
 		return (Vector2)this.transform.position == target;
+	}
+
+	public Vector2 scale(Vector2 vec, float scale) {
+		return new Vector2(vec.x * scale, vec.y * scale);
 	}
 
 

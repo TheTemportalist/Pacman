@@ -3,10 +3,13 @@ using System.Collections;
 
 public class Pacman : MovingEntity {
 
+	public enum PowerUp {NONE, GHOST};
+
 	// speed variable to contorl how fast pacman moves
 	public float speed = 0.4f;
 	// destination varaible, where pacman is going
 	Vector2 dest = Vector2.zero;
+	private PowerUp powerup = Pacman.PowerUp.NONE;
 
 	// Use this for initialization Called on game start
 	void Start () {
@@ -37,6 +40,18 @@ public class Pacman : MovingEntity {
 
 	}
 
+	void OnTriggerEnter2D(Collider2D co) {
+		if (co.gameObject.layer == 10) {
+			if (this.powerup == Pacman.PowerUp.GHOST) Destroy (co.gameObject);
+			else Destroy (this.gameObject);
+		}
+	}
+
+	public void empower(PowerUp power) {
+		this.powerup = power;
+
+	}
+
 	void checkKeys() {
 		if (this.checkKey (KeyCode.UpArrow, Vector2.up)) return;
 		if (this.checkKey (KeyCode.DownArrow, -Vector2.up)) return;
@@ -54,6 +69,11 @@ public class Pacman : MovingEntity {
 			}
 		}
 		return false;
+	}
+
+	override public void setPos(Vector3 pos) {
+		base.setPos (pos);
+		this.dest = (Vector2) pos;
 	}
 
 }
