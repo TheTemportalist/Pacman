@@ -2,4 +2,6 @@
 *.csproj
 Library
 *.userprefs
-
+*.sin
+Pacman-csharp.sln
+Pacman.sln
