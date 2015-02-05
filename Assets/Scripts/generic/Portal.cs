@@ -12,8 +12,7 @@ public class Portal : MonoBehaviour {
 		Vector3 pos = co.gameObject.transform.position;
 		if (pos.x > this.midX) pos.x = this.leftX + this.offset;
 		else pos.x = this.rightX - this.offset;
-		print ("port");
-		((MovingEntity)co.gameObject.GetComponent ("MovingEntity")).setPos (pos);
+		co.gameObject.transform.position = pos;
 	}
 
 }

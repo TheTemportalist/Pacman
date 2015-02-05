@@ -1,15 +1,15 @@
 fileFormatVersion: 2
-guid: c6f9089bb900f4bacacda86f22b5beb0
+guid: c9cb2209926a742489e244c3cb1710e5
 TextureImporter:
   fileIDToRecycleName:
-    21300000: g-red_0
-    21300002: g-red_1
-    21300004: g-red_2
-    21300006: g-red_3
-    21300008: g-red_4
-    21300010: g-red_5
-    21300012: g-red_6
-    21300014: g-red_7
+    21300000: ghost_eyes_0
+    21300002: ghost_eyes_1
+    21300004: ghost_eyes_2
+    21300006: ghost_eyes_3
+    21300008: ghost_eyes_4
+    21300010: ghost_eyes_5
+    21300012: ghost_eyes_6
+    21300014: ghost_eyes_7
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -51,7 +51,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: g-red_0
+    - name: ghost_eyes_0
       rect:
         serializedVersion: 2
         x: 0
@@ -61,7 +61,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: g-red_1
+    - name: ghost_eyes_1
       rect:
         serializedVersion: 2
         x: 16
@@ -71,7 +71,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: g-red_2
+    - name: ghost_eyes_2
       rect:
         serializedVersion: 2
         x: 0
@@ -81,7 +81,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: g-red_3
+    - name: ghost_eyes_3
       rect:
         serializedVersion: 2
         x: 16
@@ -91,7 +91,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: g-red_4
+    - name: ghost_eyes_4
       rect:
         serializedVersion: 2
         x: 0
@@ -101,7 +101,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: g-red_5
+    - name: ghost_eyes_5
       rect:
         serializedVersion: 2
         x: 16
@@ -111,7 +111,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: g-red_6
+    - name: ghost_eyes_6
       rect:
         serializedVersion: 2
         x: 0
@@ -121,7 +121,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: g-red_7
+    - name: ghost_eyes_7
       rect:
         serializedVersion: 2
         x: 16

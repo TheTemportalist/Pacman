@@ -53,9 +53,9 @@ public abstract class Ghost : MovingEntity {
 			else if (smallest.Contains(Direction.LEFT)) smallestDistanceDir = Direction.LEFT;
 			else if (smallest.Contains(Direction.DOWN)) smallestDistanceDir = Direction.DOWN;
 
-			//print ("goal = " + this.goal);
-			//print ("shortest = " + smallestDistanceDir.getName ());
-			//print ("dist = " + smallestDist);
+			print ("goal = " + this.goal);
+			print ("shortest = " + smallestDistanceDir.getName ());
+			print ("dist = " + smallestDist);
 
 			this.setNext(smallestDistanceDir.toVec(this.getPos()));
 
@@ -75,6 +75,7 @@ public abstract class Ghost : MovingEntity {
 
 	void findNewGoal() {
 		if (this.ai == AI.CHASE) {
+			//this.goal = Objects.getPacman().transform.position;
 		} else if (this.ai == AI.SCATTER) {
 			this.goal = this.getHomePoint();
 		} else if (this.ai == AI.FRIGHTENED) {
@@ -82,5 +83,13 @@ public abstract class Ghost : MovingEntity {
 	}
 
 	protected abstract Vector3 getHomePoint ();
-	
+
+	override protected void onDirChanged() {
+		Transform eyes = this.transform.FindChild ("eyes");
+		if (eyes != null) {
+			eyes.gameObject.GetComponent<Animator>().SetFloat("DirX", this.getDir ().x);
+			eyes.gameObject.GetComponent<Animator>().SetFloat("DirY", this.getDir ().y);
+		}
+	}
+
 }

@@ -43,10 +43,22 @@ public class Pacman : MovingEntity {
 	}
 
 	void OnTriggerEnter2D(Collider2D co) {
+		//print (co.gameObject.layer);
+		///*
 		if (co.gameObject.layer == 10) {
-			if (this.powerup == Pacman.PowerUp.GHOST) Destroy (co.gameObject);
-			else Destroy (this.gameObject);
+			//print ("ghost");
+			if (this.powerup == Pacman.PowerUp.GHOST) {
+				Destroy (co.gameObject);
+			}
+			else {
+				Destroy (this.gameObject);
+			}
 		}
+		//*/
+	}
+
+	void OnCollisionEnter2D(Collision2D collision) {
+		print (collision);
 	}
 
 	public void empower(PowerUp power) {
@@ -63,6 +75,7 @@ public class Pacman : MovingEntity {
 
 	bool checkKey(KeyCode key, Vector2 dir) {
 		if (Input.GetKey (key)) {
+			//print (this.isValidDirection(dir));
 			if (isValidDirection (dir)) {
 				this.dest = this.getPos() + (Vector3)dir;
 				return true;

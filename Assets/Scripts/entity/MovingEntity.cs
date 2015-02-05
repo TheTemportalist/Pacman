@@ -18,9 +18,14 @@ public class MovingEntity : MonoBehaviour {
 	void FixedUpdate() {
 		this.update ();
 		this.dir = this.nextTile - this.getPos ();
-		GetComponent<Animator>().SetFloat("DirX", this.dir.x);
-		GetComponent<Animator>().SetFloat("DirY", this.dir.y);
+		if (this.dir != Vector3.zero) {
+			GetComponent<Animator> ().SetFloat ("DirX", this.dir.x);
+			GetComponent<Animator> ().SetFloat ("DirY", this.dir.y);
+			this.onDirChanged();
+		}
 	}
+
+	protected virtual void onDirChanged () {}
 
 	protected void setNext(Vector3 tile) {
 		this.nextTile = tile;
@@ -28,6 +33,10 @@ public class MovingEntity : MonoBehaviour {
 
 	protected Vector3 getNext() {
 		return this.nextTile;
+	}
+
+	protected Vector3 getDir() {
+		return this.dir;
 	}
 
 	protected Vector3 getNormalDir() {
@@ -79,12 +88,16 @@ public class MovingEntity : MonoBehaviour {
 	public bool checkCollision(Vector2 target) {
 		// this is a layer mask. 8 is the pacdot layer, so 1 << 8 is the mask.
 		// to ignore that layer, we invert the mask
-		int layerMask = ~(1 << 8);
+		//int layerMask = ~(1 << 8);
+		// instead, we only want to collide WITH the DEFAULT LAYER
+		int layerMask = (1 << 0);
+
 		// cast from the target to this object
 		// if we hit something else, then the point is behind an object. otherwise, the line hits ourself
 		RaycastHit2D hit = Physics2D.Linecast (target, this.transform.position, layerMask);
 		// if it hits this collider, than there is nothing in the way
-		return (hit.collider == this.collider2D);
+		//print (hit.collider);
+		return (hit.collider == null);//this.collider2D);
 	}
 
 	public bool moveToNext(float speed) {

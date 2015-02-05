@@ -79,6 +79,7 @@ public class Dots : ObjCreator {
 		// create collider
 		pacdot.AddComponent("BoxCollider2D");
 		((BoxCollider2D)pacdot.collider2D).size = new Vector2(.25f, .25f);
+		((BoxCollider2D)pacdot.collider2D).isTrigger = true;
 		// add script
 		pacdot.AddComponent("Pacdot");
 		((Pacdot)pacdot.GetComponent("Pacdot")).powerup = powerup;
