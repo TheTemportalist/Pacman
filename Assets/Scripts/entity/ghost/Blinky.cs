@@ -7,5 +7,9 @@ public class Blinky : Ghost {
 		return new Vector3(25.5f, 33.5f);
 	}
 
+	override protected Vector3 getChaseGoal() {
+		return Objects.getPacmanAttr().getPos();
+	}
+
 }
 

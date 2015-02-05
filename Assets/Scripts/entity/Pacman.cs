@@ -43,40 +43,39 @@ public class Pacman : MovingEntity {
 	}
 
 	void OnTriggerEnter2D(Collider2D co) {
-		//print (co.gameObject.layer);
-		///*
+		// if the collision occured with something on the GHOST layer (10)
 		if (co.gameObject.layer == 10) {
-			//print ("ghost");
+			Ghost ghost = Objects.getGhost(co.gameObject);
+			// if we can eat ghosts
+			//print (this.powerup);
 			if (this.powerup == Pacman.PowerUp.GHOST) {
-				Destroy (co.gameObject);
+				if (!ghost.isEaten()) {
+					ghost.setEaten(true);
+					score += 10;
+				}
 			}
 			else {
 				Destroy (this.gameObject);
 			}
 		}
-		//*/
-	}
-
-	void OnCollisionEnter2D(Collision2D collision) {
-		print (collision);
 	}
 
 	public void empower(PowerUp power) {
 		this.powerup = power;
-
+		if (power == PowerUp.GHOST) Objects.setMode (Ghost.AI.FRIGHTENED);
 	}
 
 	void checkKeys() {
-		if (this.checkKey (KeyCode.UpArrow, Vector2.up)) return;
-		if (this.checkKey (KeyCode.DownArrow, -Vector2.up)) return;
-		if (this.checkKey (KeyCode.RightArrow, Vector2.right)) return;
-		if (this.checkKey (KeyCode.LeftArrow, -Vector2.right)) return;
+		if (this.checkKey (KeyCode.UpArrow, Vector3.up)) return;
+		if (this.checkKey (KeyCode.DownArrow, -Vector3.up)) return;
+		if (this.checkKey (KeyCode.RightArrow, Vector3.right)) return;
+		if (this.checkKey (KeyCode.LeftArrow, -Vector3.right)) return;
 	}
 
-	bool checkKey(KeyCode key, Vector2 dir) {
+	bool checkKey(KeyCode key, Vector3 dir) {
 		if (Input.GetKey (key)) {
-			//print (this.isValidDirection(dir));
-			if (isValidDirection (dir)) {
+			//print (Direction.get(dir).getName() + " : " + this.isValidDirection(dir));
+			if (this.isValidDirection (dir)) {
 				this.dest = this.getPos() + (Vector3)dir;
 				return true;
 			}
@@ -89,6 +88,15 @@ public class Pacman : MovingEntity {
 		if (power != Pacman.PowerUp.NONE)
 			this.empower(power);
 		Destroy (dot);
+	}
+
+	public int getScore() {
+		return this.score;
+	}
+
+	override public void port(Vector3 newPos) {
+		base.port (newPos);
+		this.dest = newPos;
 	}
 
 }

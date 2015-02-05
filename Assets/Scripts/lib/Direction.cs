@@ -12,6 +12,14 @@ public class Direction {
 		return new Direction[]{UP, LEFT, DOWN, RIGHT};
 	}
 
+	public static Direction get(Vector3 vec) {
+		foreach (Direction dir in Direction.getDirections()) {
+			if (dir.getVec() == vec.normalized)
+				return dir;
+		}
+		return null;
+	}
+
 	private string name;
 	private Vector3 dirVec;
 

@@ -17,11 +17,13 @@ public class MovingEntity : MonoBehaviour {
 
 	void FixedUpdate() {
 		this.update ();
-		this.dir = this.nextTile - this.getPos ();
-		if (this.dir != Vector3.zero) {
-			GetComponent<Animator> ().SetFloat ("DirX", this.dir.x);
-			GetComponent<Animator> ().SetFloat ("DirY", this.dir.y);
-			this.onDirChanged();
+		if (this.nextTile != this.getPos ()) {
+			this.dir = this.nextTile - this.getPos ();
+			if (this.dir != Vector3.zero) {
+				GetComponent<Animator> ().SetFloat ("DirX", this.dir.x);
+				GetComponent<Animator> ().SetFloat ("DirY", this.dir.y);
+				this.onDirChanged ();
+			}
 		}
 	}
 
@@ -39,7 +41,7 @@ public class MovingEntity : MonoBehaviour {
 		return this.dir;
 	}
 
-	protected Vector3 getNormalDir() {
+	public Vector3 getNormalDir() {
 		return this.dir.normalized;
 	}
 
@@ -76,7 +78,7 @@ public class MovingEntity : MonoBehaviour {
 		if (this.isValidDirection (dir)) {
 			// This will smoothly move pacman to its destination, based on speed
 			Vector2 p = Vector2.MoveTowards(
-				this.transform.position, (Vector2)this.getPos() + dir, speed
+				(Vector2)this.getPos(), (Vector2)this.getPos() + dir, speed
 			);
 			// actually move to the calcualted vector
 			this.rigidbody2D.MovePosition(p);
@@ -94,7 +96,7 @@ public class MovingEntity : MonoBehaviour {
 
 		// cast from the target to this object
 		// if we hit something else, then the point is behind an object. otherwise, the line hits ourself
-		RaycastHit2D hit = Physics2D.Linecast (target, this.transform.position, layerMask);
+		RaycastHit2D hit = Physics2D.Linecast (target, (Vector2)this.getPos(), layerMask);
 		// if it hits this collider, than there is nothing in the way
 		//print (hit.collider);
 		return (hit.collider == null);//this.collider2D);
@@ -104,7 +106,7 @@ public class MovingEntity : MonoBehaviour {
 		return this.moveTo (this.getNext (), speed);
 	}
 
-	public bool moveTo(Vector2 target, float speed) {
+	public bool moveTo(Vector3 target, float speed) {
 		if (this.checkCollision (target)) {
 			return this.moveTo_do(target, speed);
 		}
@@ -126,8 +128,8 @@ public class MovingEntity : MonoBehaviour {
 		return this.getPos() == target;
 	}
 
-	public Vector2 scale(Vector2 vec, float scale) {
-		return new Vector2(vec.x * scale, vec.y * scale);
+	public Vector3 scale(Vector3 vec, float scale) {
+		return new Vector3(vec.x * scale, vec.y * scale, vec.z * scale);
 	}
 
 	protected bool isComingFromDir(Direction dir) {
@@ -168,7 +170,9 @@ public class MovingEntity : MonoBehaviour {
 		return largestList;
 	}
 
-
+	public virtual void port(Vector3 newPos) {
+		this.transform.position = newPos;
+	}
 
 }
 
