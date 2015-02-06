@@ -56,6 +56,8 @@ public class Pacman : MovingEntity {
 			}
 			else {
 				Destroy (this.gameObject);
+				UnityEditor.EditorApplication.isPlaying = false;
+				Application.Quit();
 			}
 		}
 	}

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public abstract class Ghost : MovingEntity {
 
 	public enum AI {CHASE, SCATTER, FRIGHTENED};
+	public enum STATE {NORMAL, FRIGHT, EATEN};
 	private static Vector3 starter = new Vector3(14.5f, 19.5f);
 	private static Vector3 boxUpLeft = new Vector3(10.5f, 18.5f);
 	private static Vector3 boxDownRight = new Vector3(17.5f, 14.5f);
@@ -13,14 +14,16 @@ public abstract class Ghost : MovingEntity {
 	public float speed = 0.3f;
 	public int dotCoundDelay = 0;
 
-	private AI ai;
+	private AI ai = AI.CHASE;
 	private Vector3 goal;
 
 	private bool eaten = false;
 
+	private Dictionary<string, GameObject> kids = new Dictionary<string, GameObject>();
+
 	void Start() {
-		this.ai = AI.CHASE;
 		this.setNext (this.getPos ());
+		this.setState (STATE.NORMAL);
 
 	}
 
@@ -42,6 +45,10 @@ public abstract class Ghost : MovingEntity {
 		this.findNewGoal ();
 		// check if the current position and the target tile are the same (i have reached destination)
 		if (this.getNext () == this.getPos ()) {
+			// if we are frightened, then we psudorandomly chose our directions
+			if (this.ai == AI.FRIGHTENED && !this.isEaten()) {
+
+			}
 			// create a variable to store the shortest distance of all directions
 			double shortestDistance = 10000D;
 			List<Direction> shortestDirections = new List<Direction>();
@@ -93,12 +100,46 @@ public abstract class Ghost : MovingEntity {
 			this.goal = this.getChaseGoal();
 		} else if (this.ai == AI.SCATTER) {
 			this.goal = this.getHomePoint();
-		} else if (this.ai == AI.FRIGHTENED) {
 		}
 	}
 
-	public void setMode(AI ai) {
+	public void setMode(AI newAI) {
+		if (this.ai != newAI) {
+			if (this.ai == AI.CHASE && newAI != AI.CHASE) {
+				this.setNext(this.getPos() - this.getNormalDir());
+			}
+			this.ai = newAI;
+			if (!this.isEaten()) {
+				this.setStateBasedOnAI();
+			}
+		}
+	}
 
+	private void setStateBasedOnAI() {
+		if (this.ai == AI.FRIGHTENED) this.setState (STATE.FRIGHT);
+		else this.setState (STATE.NORMAL);
+	}
+
+	private void setState(STATE state) {
+		GameObject eyes = this.transform.FindChild ("eyes").gameObject;
+		GameObject fright = this.transform.FindChild ("fright").gameObject;
+		GameObject eyes_fright = this.transform.FindChild ("eyes_fright").gameObject;
+		if (state == STATE.NORMAL) {
+			this.renderer.enabled = true;
+			eyes.renderer.enabled = true;
+			fright.renderer.enabled = false;
+			eyes_fright.renderer.enabled = false;
+		} else if (state == STATE.FRIGHT) {
+			this.renderer.enabled = false;
+			eyes.renderer.enabled = false;
+			fright.renderer.enabled = true;
+			eyes_fright.renderer.enabled = true;
+		} else if (state == STATE.EATEN) {
+			this.renderer.enabled = false;
+			eyes.renderer.enabled = true;
+			fright.renderer.enabled = false;
+			eyes_fright.renderer.enabled = false;
+		}
 	}
 
 	protected abstract Vector3 getHomePoint ();
@@ -106,11 +147,12 @@ public abstract class Ghost : MovingEntity {
 	protected abstract Vector3 getChaseGoal ();
 
 	override protected void onDirChanged() {
-		Transform eyes = this.transform.FindChild ("eyes");
-		if (eyes != null) {
-			eyes.gameObject.GetComponent<Animator>().SetFloat("DirX", this.getDir ().x);
-			eyes.gameObject.GetComponent<Animator>().SetFloat("DirY", this.getDir ().y);
-		}
+		GameObject eyes = this.transform.FindChild ("eyes").gameObject;
+		GameObject fright = this.transform.FindChild ("fright").gameObject;
+		GameObject eyes_fright = this.transform.FindChild ("eyes_fright").gameObject;
+		this.setAnimatorDir (eyes, this.getDir ());
+		this.setAnimatorDir (fright, this.getDir ());
+		this.setAnimatorDir (eyes_fright, this.getDir ());
 	}
 
 	private bool pointInBox(Vector3 point) {
@@ -128,8 +170,11 @@ public abstract class Ghost : MovingEntity {
 
 	public void setEaten(bool eaten) {
 		this.eaten = eaten;
-		if (this.eaten) this.renderer.enabled = false;
-		else this.renderer.enabled = true;
+		if (this.eaten)
+			this.setState (STATE.EATEN);
+		else {
+			this.setStateBasedOnAI();
+		}
 	}
 
 	override public void port(Vector3 newPos) {

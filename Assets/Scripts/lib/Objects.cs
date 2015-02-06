@@ -10,12 +10,17 @@ public class Objects {
 	public static GameObject getPacman() {
 		return Objects.find("pacman");
 	}
+
+	public static bool hasPacman() {
+		return Objects.getPacman () != null;
+	}
 	
 	public static Pacman getPacmanAttr() {
 		return Objects.getPacmanAttr(Objects.getPacman());
 	}
 	
 	public static Pacman getPacmanAttr(GameObject pac) {
+		if (pac == null) return null;
 		return (Pacman)pac.GetComponent("Pacman");
 	}
 
@@ -34,6 +39,9 @@ public class Objects {
 	public static void setMode(Ghost.AI ai) {
 		foreach (string name in (new string[]{"blinky", "pinky", "inky", "clyde"})) {
 			Objects.getGhost(name).setMode(ai);
+		}
+		if (ai == Ghost.AI.FRIGHTENED) {
+			((Timer)Objects.getComp(Objects.find("maze"), "Timer")).startFright();
 		}
 	}
 

@@ -20,11 +20,15 @@ public class MovingEntity : MonoBehaviour {
 		if (this.nextTile != this.getPos ()) {
 			this.dir = this.nextTile - this.getPos ();
 			if (this.dir != Vector3.zero) {
-				GetComponent<Animator> ().SetFloat ("DirX", this.dir.x);
-				GetComponent<Animator> ().SetFloat ("DirY", this.dir.y);
+				this.setAnimatorDir(this.gameObject, this.dir);
 				this.onDirChanged ();
 			}
 		}
+	}
+
+	protected void setAnimatorDir(GameObject go, Vector3 dir) {
+		go.GetComponent<Animator> ().SetFloat ("DirX", dir.x);
+		go.GetComponent<Animator> ().SetFloat ("DirY", dir.y);
 	}
 
 	protected virtual void onDirChanged () {}

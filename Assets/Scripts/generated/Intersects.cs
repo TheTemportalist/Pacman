@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Intersects : ObjCreator {
 
 	public bool generate = true;
+	public bool show = true;
 
 	override protected bool isEnabled() {
 		return this.generate;
@@ -57,7 +58,7 @@ public class Intersects : ObjCreator {
 
 	private void createIntersect(Vector3 point, IconManager.Icon icon) {
 		GameObject empty = new GameObject ("intersect");
-		IconManager.SetIcon (empty, icon);
+		if (this.show) IconManager.SetIcon (empty, icon);
 		empty.transform.parent = this.transform;
 		empty.transform.position = point;
 	}
